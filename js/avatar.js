@@ -1,201 +1,74 @@
-// Avatar 3D estilizado (low-poly) do Pedro, feito em Three.js.
-// Chame initAvatar('id-do-container') em qualquer página que tenha
-// um <div class="photo-card" id="..."></div> vazio para receber o boneco.
+// Avatar ilustrado (flat design), estilo "avatar de app", com a mão
+// acenando a cada 3 segundos. Chame renderAvatar('id-do-container')
+// em qualquer <div class="photo-card" id="..."></div> vazio.
 
-function initAvatar(containerId) {
+function renderAvatar(containerId) {
   const container = document.getElementById(containerId);
-  if (!container || typeof THREE === 'undefined') return;
+  if (!container) return;
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  container.innerHTML = `
+    <svg class="avatar-illustration" viewBox="0 0 400 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Ilustração de Pedro Telles acenando">
+      <!-- braço + mão acenando -->
+      <g class="wave-hand">
+        <path d="M298,404 C332,384 344,332 332,286 C326,264 308,254 298,266 C292,278 298,300 304,322 C312,352 306,384 300,404 Z" fill="#14161c"/>
+        <ellipse cx="300" cy="258" rx="20" ry="24" fill="#D9A87A"/>
+        <ellipse cx="284" cy="232" rx="7" ry="17" fill="#D9A87A" transform="rotate(-14 284 232)"/>
+        <ellipse cx="299" cy="224" rx="7.5" ry="19" fill="#D9A87A" transform="rotate(-2 299 224)"/>
+        <ellipse cx="315" cy="228" rx="7" ry="18" fill="#D9A87A" transform="rotate(10 315 228)"/>
+        <ellipse cx="329" cy="238" rx="6.5" ry="15" fill="#D9A87A" transform="rotate(24 329 238)"/>
+      </g>
 
-  // ---------- cena, câmera, renderer ----------
-  const scene = new THREE.Scene();
+      <!-- corpo / camiseta -->
+      <path d="M78,520 C78,378 138,338 200,338 C262,338 322,378 322,520 Z" fill="#14161c"/>
+      <path d="M170,338 C170,338 185,360 200,360 C215,360 230,338 230,338 L222,318 L178,318 Z" fill="#0d0e12"/>
 
-  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-  camera.position.set(0, 0.15, 5.2);
+      <!-- pescoço -->
+      <rect x="170" y="300" width="60" height="55" rx="18" fill="#C9946A"/>
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  container.appendChild(renderer.domElement);
-  renderer.domElement.style.width = '100%';
-  renderer.domElement.style.height = '100%';
-  renderer.domElement.style.display = 'block';
-  renderer.domElement.style.cursor = 'grab';
+      <!-- orelhas -->
+      <ellipse cx="117" cy="238" rx="15" ry="23" fill="#D9A87A"/>
+      <ellipse cx="283" cy="238" rx="15" ry="23" fill="#D9A87A"/>
 
-  function resize() {
-    const w = container.clientWidth;
-    const h = container.clientHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-  window.addEventListener('resize', resize);
+      <!-- cabeça -->
+      <ellipse cx="200" cy="232" rx="87" ry="99" fill="#D9A87A"/>
 
-  // ---------- luzes ----------
-  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+      <!-- bochechas -->
+      <ellipse cx="142" cy="258" rx="16" ry="9" fill="#E8A585" opacity="0.55"/>
+      <ellipse cx="258" cy="258" rx="16" ry="9" fill="#E8A585" opacity="0.55"/>
 
-  const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
-  keyLight.position.set(2.5, 3, 3);
-  scene.add(keyLight);
+      <!-- cavanhaque -->
+      <path d="M178,296 C178,296 186,332 200,334 C214,332 222,296 222,296 C214,306 186,306 178,296 Z" fill="#241a12"/>
 
-  const rimLight = new THREE.PointLight(0x2b5cff, 1.1, 12);
-  rimLight.position.set(-2.5, 1, -2);
-  scene.add(rimLight);
+      <!-- boca (sorriso) -->
+      <path d="M174,284 Q200,302 226,284 Q200,296 174,284 Z" fill="#fff"/>
+      <path d="M174,284 Q200,300 226,284" fill="none" stroke="#5c3a20" stroke-width="2.5" stroke-linecap="round"/>
 
-  const fillLight = new THREE.PointLight(0xffffff, 0.3, 12);
-  fillLight.position.set(0, -1.5, 2);
-  scene.add(fillLight);
+      <!-- bigode -->
+      <path d="M162,272 Q200,262 238,272 Q228,282 200,278 Q172,282 162,272 Z" fill="#241a12"/>
 
-  // ---------- materiais ----------
-  const skin = new THREE.MeshStandardMaterial({ color: 0xC98F63, flatShading: true, roughness: 0.7 });
-  const hairMat = new THREE.MeshStandardMaterial({ color: 0x241a12, flatShading: true, roughness: 0.6 });
-  const shirtMat = new THREE.MeshStandardMaterial({ color: 0x14161c, flatShading: true, roughness: 0.8 });
-  const eyeWhite = new THREE.MeshStandardMaterial({ color: 0xf5f1e8, flatShading: true });
-  const eyePupil = new THREE.MeshStandardMaterial({ color: 0x1a120b, flatShading: true });
-  const mouthMat = new THREE.MeshStandardMaterial({ color: 0xffffff, flatShading: true });
+      <!-- nariz -->
+      <path d="M197,222 Q191,244 199,250 Q206,247 204,243" fill="none" stroke="#B87F53" stroke-width="3" stroke-linecap="round"/>
 
-  const avatar = new THREE.Group();
+      <!-- olhos -->
+      <ellipse cx="167" cy="220" rx="13" ry="15" fill="#fff"/>
+      <ellipse cx="233" cy="220" rx="13" ry="15" fill="#fff"/>
+      <circle cx="169" cy="224" r="7" fill="#1a120b"/>
+      <circle cx="235" cy="224" r="7" fill="#1a120b"/>
+      <circle cx="171" cy="221" r="2" fill="#fff"/>
+      <circle cx="237" cy="221" r="2" fill="#fff"/>
 
-  // ---------- tronco (camiseta preta) ----------
-  const torso = new THREE.Mesh(new THREE.BoxGeometry(1.7, 1.15, 0.95), shirtMat);
-  torso.position.set(0, -1.15, 0);
-  avatar.add(torso);
+      <!-- sobrancelhas -->
+      <path d="M148,200 Q166,189 187,198" fill="none" stroke="#241a12" stroke-width="7" stroke-linecap="round"/>
+      <path d="M213,198 Q234,189 252,200" fill="none" stroke="#241a12" stroke-width="7" stroke-linecap="round"/>
 
-  const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.12, 8), shirtMat);
-  collar.position.set(0, -0.58, 0);
-  avatar.add(collar);
+      <!-- costeletas -->
+      <path d="M118,220 C112,245 114,268 124,285 L134,278 C126,262 124,240 128,218 Z" fill="#241a12"/>
+      <path d="M282,220 C288,245 286,268 276,285 L266,278 C274,262 276,240 272,218 Z" fill="#241a12"/>
 
-  // ---------- pescoço ----------
-  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.3, 0.32, 8), skin);
-  neck.position.set(0, -0.42, 0);
-  avatar.add(neck);
-
-  // ---------- cabeça ----------
-  const head = new THREE.Mesh(new THREE.IcosahedronGeometry(0.62, 1), skin);
-  head.position.set(0, 0.16, 0);
-  head.scale.set(0.94, 1.05, 0.92);
-  avatar.add(head);
-
-  // orelhas
-  const earGeo = new THREE.SphereGeometry(0.12, 8, 8);
-  const earL = new THREE.Mesh(earGeo, skin);
-  earL.position.set(-0.62, 0.08, 0);
-  earL.scale.set(0.7, 1, 0.6);
-  avatar.add(earL);
-  const earR = earL.clone();
-  earR.position.x = 0.62;
-  avatar.add(earR);
-
-  // cabelo (base + franja espetada)
-  const hairBase = new THREE.Mesh(
-    new THREE.SphereGeometry(0.68, 8, 6, 0, Math.PI * 2, 0, Math.PI * 0.62),
-    hairMat
-  );
-  hairBase.position.set(0, 0.42, -0.02);
-  avatar.add(hairBase);
-
-  const spikePositions = [
-    [-0.28, 0.78, 0.22], [-0.1, 0.84, 0.28], [0.12, 0.84, 0.26],
-    [0.3, 0.78, 0.18], [0.0, 0.8, 0.35], [-0.42, 0.68, 0.05], [0.42, 0.68, 0.02]
-  ];
-  spikePositions.forEach(([x, y, z], i) => {
-    const spike = new THREE.Mesh(new THREE.ConeGeometry(0.11, 0.34, 5), hairMat);
-    spike.position.set(x, y, z);
-    spike.rotation.z = (i % 2 === 0 ? 1 : -1) * 0.35;
-    spike.rotation.x = -0.5;
-    avatar.add(spike);
-  });
-
-  // sobrancelhas
-  const browGeo = new THREE.BoxGeometry(0.24, 0.055, 0.06);
-  const browL = new THREE.Mesh(browGeo, hairMat);
-  browL.position.set(-0.22, 0.28, 0.53);
-  browL.rotation.z = 0.06;
-  avatar.add(browL);
-  const browR = browL.clone();
-  browR.position.x = 0.22;
-  browR.rotation.z = -0.06;
-  avatar.add(browR);
-
-  // olhos
-  function makeEye(x) {
-    const group = new THREE.Group();
-    const white = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8, 8), eyeWhite);
-    group.add(white);
-    const pupil = new THREE.Mesh(new THREE.SphereGeometry(0.045, 8, 8), eyePupil);
-    pupil.position.set(0, 0, 0.07);
-    group.add(pupil);
-    group.position.set(x, 0.18, 0.53);
-    return group;
-  }
-  avatar.add(makeEye(-0.22));
-  avatar.add(makeEye(0.22));
-
-  // nariz
-  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.2, 6), skin);
-  nose.rotation.x = Math.PI / 2.1;
-  nose.position.set(0, 0.02, 0.58);
-  avatar.add(nose);
-
-  // bigode
-  const mustache = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.09, 0.08), hairMat);
-  mustache.position.set(0, -0.14, 0.58);
-  avatar.add(mustache);
-
-  // boca (sorriso)
-  const mouth = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.06, 0.05), mouthMat);
-  mouth.position.set(0, -0.24, 0.6);
-  avatar.add(mouth);
-
-  // cavanhaque / barba no queixo
-  const goatee = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.24, 0.1), hairMat);
-  goatee.position.set(0, -0.42, 0.5);
-  avatar.add(goatee);
-
-  avatar.position.y = 0.5;
-  scene.add(avatar);
-
-  resize();
-
-  // ---------- interação: arrastar para girar ----------
-  let isDragging = false;
-  let prevX = 0;
-  let targetRotY = 0.3;
-  let currentRotY = 0.3;
-
-  renderer.domElement.addEventListener('pointerdown', (e) => {
-    isDragging = true;
-    prevX = e.clientX;
-    renderer.domElement.style.cursor = 'grabbing';
-  });
-  window.addEventListener('pointerup', () => {
-    isDragging = false;
-    renderer.domElement.style.cursor = 'grab';
-  });
-  window.addEventListener('pointermove', (e) => {
-    if (!isDragging) return;
-    const dx = e.clientX - prevX;
-    prevX = e.clientX;
-    targetRotY += dx * 0.008;
-  });
-
-  // ---------- loop de animação ----------
-  const clock = new THREE.Clock();
-  function animate() {
-    requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-
-    if (!prefersReducedMotion && !isDragging) {
-      targetRotY += 0.0032;
-    }
-    currentRotY += (targetRotY - currentRotY) * 0.08;
-    avatar.rotation.y = currentRotY;
-
-    if (!prefersReducedMotion) {
-      avatar.position.y = 0.5 + Math.sin(t * 1.4) * 0.045;
-    }
-
-    renderer.render(scene, camera);
-  }
-  animate();
+      <!-- cabelo -->
+      <path d="M112,222 C104,150 132,88 200,86 C268,88 296,150 288,222
+               L272,196 L256,232 L242,192 L228,228 L212,190 L200,224
+               L188,190 L172,228 L158,192 L144,232 L128,196 Z" fill="#241a12"/>
+    </svg>
+  `;
 }
