@@ -199,26 +199,24 @@ nav{
 .avatar-illustration{
   width:100%;
   height:100%;
+  object-fit:contain;
   display:block;
+  transform-origin:70% 30%;
 }
 
-.wave-hand{
-  transform-origin:300px 400px;
-  transform-box:fill-box;
-  animation:wave 3s ease-in-out infinite;
+.avatar-illustration.wave{
+  animation:wave .7s ease-in-out;
 }
 
 @keyframes wave{
-  0%, 22%, 100% { transform:rotate(0deg); }
-  4%  { transform:rotate(16deg); }
-  8%  { transform:rotate(-11deg); }
-  12% { transform:rotate(15deg); }
-  16% { transform:rotate(-6deg); }
-  20% { transform:rotate(5deg); }
+  0%, 100% { transform:rotate(0deg) scale(1); }
+  25%      { transform:rotate(-3deg) scale(1.02); }
+  50%      { transform:rotate(2deg) scale(1.02); }
+  75%      { transform:rotate(-1deg) scale(1.01); }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .wave-hand{animation:none;}
+  .avatar-illustration.wave{animation:none;}
 }
 
 .photo-tag{
