@@ -32,9 +32,7 @@
 <section class="about">
   <div class="wrap about-grid">
     <div>
-      <div class="photo-card" style="aspect-ratio:1;">
-        <img src="img/pedro.jpg" alt="Foto de Pedro Telles">
-      </div>
+      <div class="photo-card" id="avatar-about" style="aspect-ratio:1;" aria-label="Avatar 3D de Pedro Telles — arraste para girar"></div>
     </div>
     <div class="about-body">
       <h2>Desenvolvedor full-stack</h2>
@@ -63,6 +61,9 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/avatar.js"></script>
 <script src="js/script.js"></script>
+<script>initAvatar('avatar-about');</script>
 </body>
 </html>

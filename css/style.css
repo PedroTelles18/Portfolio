@@ -194,6 +194,8 @@ nav{
 .photo-card img{
   width:100%;height:100%;object-fit:cover;display:block;
 }
+.photo-card canvas{touch-action:none;}
+
 .photo-tag{
   position:absolute;
   left:14px;bottom:14px;

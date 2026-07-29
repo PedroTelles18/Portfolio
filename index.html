@@ -32,8 +32,7 @@
         <a href="contato.html" class="btn btn-ghost">falar com Pedro</a>
       </div>
     </div>
-    <div class="photo-card">
-      <img src="img/pedro.jpg" alt="Foto de Pedro Telles">
+    <div class="photo-card" id="avatar-hero" aria-label="Avatar 3D de Pedro Telles — arraste para girar">
       <div class="photo-tag mono">pedro_telles.dev</div>
     </div>
   </div>
@@ -137,6 +136,9 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/avatar.js"></script>
 <script src="js/script.js"></script>
+<script>initAvatar('avatar-hero');</script>
 </body>
 </html>
