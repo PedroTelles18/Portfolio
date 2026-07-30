@@ -1,0 +1,4 @@
+#!/bin/sh
+# Roda automaticamente antes de cada commit.
+# Atualiza o ?v= do CSS/JS nos HTMLs quando necessário.
+python3 "$(git rev-parse --show-toplevel)/scripts/bump_cache_version.py"
